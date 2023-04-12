@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./delivery-backend
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - "8080:80"
+      - "443:443"
+    expose:
+      - $NODE_DOCKER_PORT
+      - 80
+    
+    environment:
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+    # networks:
+    #   - backend
+
+  # frontend:
+  #   depends_on:
+  #     - backend
+  #   build:
+  #     context: ./delivery-frontend
+  #     args:
+  #       - REACT_APP_API_BASE_URL=$CLIENT_API_BASE_URL
+  #       - DISABLE_ESLINT_PLUGIN=true
+  #   ports:
+  #     - 80:80
+  #   networks:
+  #     - backend
+  #   volumes:
+  #     - ./delivery-frontend/default.conf:/etc/nginx/nginx.conf
+
+# networks:
+#   backend:
